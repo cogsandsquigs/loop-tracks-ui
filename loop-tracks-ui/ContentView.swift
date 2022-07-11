@@ -24,8 +24,20 @@ struct ContentView: View {
                 Text("brown").tag("brown")
             }
                 .pickerStyle(MenuPickerStyle())
-            Text(colorSelection)
+            Button(action:SetArgonColor) {
+                Text("Set Argon to be the " + colorSelection + " line")
+            }
+                .padding()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10.0)
+                        .stroke(.gray)
+                )
         }
+    }
+    
+    
+    func SetArgonColor() {
+        print(colorSelection)
     }
 }
 
