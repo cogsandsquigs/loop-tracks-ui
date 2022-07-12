@@ -2,7 +2,7 @@
 //  loop_tracks_uiApp.swift
 //  loop-tracks-ui
 //
-//  Created by admin on 7/11/22.
+//  Created by Ian Pratt on 7/11/22.
 //
 
 import SwiftUI

@@ -83,6 +83,8 @@
 			dependencies = (
 			);
 			name = "loop-tracks-ui";
+			packageProductDependencies = (
+			);
 			productName = "loop-tracks-ui";
 			productReference = 84E7EB28287C826E0058998E /* loop-tracks-ui.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +113,8 @@
 				Base,
 			);
 			mainGroup = 84E7EAF8287C809D0058998E;
+			packageReferences = (
+			);
 			productRefGroup = 84E7EB02287C809D0058998E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
