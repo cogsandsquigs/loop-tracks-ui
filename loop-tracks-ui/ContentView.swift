@@ -62,6 +62,7 @@ struct ContentView: View {
                         
                         Picker("Select a train system", selection: $city) {
                             Text("cta").tag("cta")
+                            Text("mbta").tag("mbta")
                         }
                         
                         Button("Set the train system to the \(city)")  {
@@ -92,6 +93,14 @@ struct ContentView: View {
                                     Text("brown/purple").tag("brown")
                                 }
                                     .pickerStyle(MenuPickerStyle())
+                            case "mbta":
+                                Picker("Selecte a train line color", selection: $color) {
+                                    Text("red").tag("red")
+                                    Text("orange").tag("orange")
+                                    Text("blue").tag("blue")
+                                    Text("Green Main").tag("green1")
+                                    Text("Green E").tag("green2")
+                                }
                             default:
                                 Picker("Select a train line color", selection: $color) { }
                             }
