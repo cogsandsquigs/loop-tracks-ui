@@ -8,46 +8,136 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var colorSelection = "brown"
+    @State private var wifiSSID = ""
+    @State private var wifiPass = ""
+    @State private var wifiAlert = false
+    @State private var wifiError = ""
+    @State private var city = "cta"
+    @State private var setTrainSystem = "" // is used so we can detect if the user set a new city without sending it, so we don't show the color options
+    @State private var color = "red"
+
     @StateObject private var btManager: BluetoothManager = BluetoothManager()
     
     var body: some View {
         NavigationView {
             VStack {
-                Text("Select a train line color corresponding to the flashing Argon:")
-                .bold()
-                
-                Picker("Select a train line color", selection: $colorSelection) {
-                    Text("pink").tag("pink")
-                    Text("red").tag("red")
-                    Text("orange").tag("orange")
-                    Text("green").tag("green")
-                    Text("blue").tag("blue")
-                    Text("purple").tag("purple")
-                    Text("brown").tag("brown")
+                Spacer()
+
+                Group {
+                    Text("Set wifi SSID and password:")
+                        .bold()
+                    
+                    TextField("Set wifi SSID", text: $wifiSSID)
+                        .padding()
+                    
+                    SecureField("Set wifi Password", text: $wifiPass)
+                        .padding()
+                    
+                    Button("Set the wifi to be \(wifiSSID)") {
+                        let err = SetWifi()
+                        if let err = err {
+                            wifiAlert = true
+                            wifiError = err
+                        } else {
+                            wifiAlert = false
+                        }
+                    }
+                        .padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10.0)
+                                .stroke(.blue)
+                        )
+                        .alert(wifiError, isPresented: $wifiAlert) {
+                            Button("Ok", role: .cancel) {}
+                        }
                 }
-                .pickerStyle(MenuPickerStyle())
                 
-                Button(action:SetArgonColor) {
-                    Text("Set Argon to be the " + colorSelection + " line")
+                Spacer()
+                
+                Group {
+                    Text("Select a train system:")
+                        .bold()
+                    
+                    Picker("Select a train system", selection: $city) {
+                        Text("cta").tag("cta")
+                    }
+                    
+                    Button("Set the train system to the \(city)")  {
+                        SetCity()
+                    }
+                        .padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10.0)
+                                .stroke(.blue)
+                        )
                 }
-                .padding()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10.0)
-                        .stroke(.gray)
-                )
+                
+                Group {
+                    if city != "" && city == setTrainSystem {
+                        Spacer()
+                        
+                        Text("Select a train line color corresponding to the flashing line:")
+                            .bold()
+                        
+                        switch city {
+                        case "cta":
+                            Picker("Select a train line color", selection: $color) {
+                                Text("pink").tag("pink")
+                                Text("red").tag("red")
+                                Text("orange").tag("orange")
+                                Text("green").tag("green")
+                                Text("blue").tag("blue")
+                                Text("purple").tag("purple")
+                                Text("brown").tag("brown")
+                            }
+                                .pickerStyle(MenuPickerStyle())
+                        default:
+                            Picker("Select a train line color", selection: $color) { }
+                        }
+                        
+                        Button("Set Argon to be the \(color) line")  {
+                            SetColor()
+                        }
+                            .padding()
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10.0)
+                                    .stroke(.blue)
+                            )
+                    }
+                }
+
+                Spacer()
             }
-            .navigationTitle(
-                btManager.mainPeripheral != nil
-                    ? "Connected to \(btManager.mainPeripheral.name ?? "Unknown device")"
-                    : "Not Connected"
-            )
-            .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle(
+                    btManager.mainPeripheral != nil
+                        ? "Connected to \(btManager.mainPeripheral.name ?? "Unknown device")"
+                        : "Not Connected"
+                )
+                .navigationBarTitleDisplayMode(.inline)
         }
     }
     
-    func SetArgonColor() {
-        print(colorSelection)
+    func SetWifi() -> String? {
+        if wifiSSID == "" {
+            return "Please set the wifi SSID"
+        } else if wifiPass == "" {
+            return "Please set the wifi password"
+        } else {
+            print("Sending wifi \(wifiSSID)")
+            btManager.sendData(data: "wifi:\(wifiSSID),\(wifiPass)")
+            return nil
+        }
+    }
+    
+    func SetCity() {
+        setTrainSystem = city
+        print("Sending city \(city)")
+        btManager.sendData(data: "city:\(city)")
+    }
+    
+    func SetColor() {
+        print("Sending color \(color)")
+        btManager.sendData(data: "color:\(color)")
     }
 }
 
