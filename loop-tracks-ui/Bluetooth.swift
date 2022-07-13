@@ -10,7 +10,7 @@ import Foundation
 import Combine
 import CoreBluetooth
 
-/// Creates a new BluetoothManager struct, which manages CoreBluetooth functions and objects
+// Creates a new BluetoothManager struct, which manages CoreBluetooth functions and objects
 final class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     private var centralManager: CBCentralManager!
