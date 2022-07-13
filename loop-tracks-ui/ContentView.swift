@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var wifiPass = ""
     @State private var wifiAlert = false
     @State private var wifiError = ""
+    @State private var wifiDone = false
     @State private var city = "cta"
     @State private var setTrainSystem = "" // is used so we can detect if the user set a new city without sending it, so we don't show the color options
     @State private var color = "red"
@@ -55,54 +56,57 @@ struct ContentView: View {
                 Spacer()
                 
                 Group {
-                    Text("Select a train system:")
-                        .bold()
-                    
-                    Picker("Select a train system", selection: $city) {
-                        Text("cta").tag("cta")
-                    }
-                    
-                    Button("Set the train system to the \(city)")  {
-                        SetCity()
-                    }
-                        .padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10.0)
-                                .stroke(.blue)
-                        )
-                }
-                
-                Group {
-                    if city != "" && city == setTrainSystem {
-                        Spacer()
-                        
-                        Text("Select a train line color corresponding to the flashing line:")
+                    if wifiDone {
+                        Text("Select a train system:")
                             .bold()
                         
-                        switch city {
-                        case "cta":
-                            Picker("Select a train line color", selection: $color) {
-                                Text("pink").tag("pink")
-                                Text("red").tag("red")
-                                Text("orange").tag("orange")
-                                Text("green").tag("green")
-                                Text("blue").tag("blue")
-                                Text("purple").tag("purple")
-                                Text("brown").tag("brown")
-                            }
-                                .pickerStyle(MenuPickerStyle())
-                        default:
-                            Picker("Select a train line color", selection: $color) { }
+                        Picker("Select a train system", selection: $city) {
+                            Text("cta").tag("cta")
                         }
                         
-                        Button("Set Argon to be the \(color) line")  {
-                            SetColor()
+                        Button("Set the train system to the \(city)")  {
+                            SetCity()
                         }
                             .padding()
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10.0)
                                     .stroke(.blue)
                             )
+                        
+                        
+                        Group {
+                            if city != "" && city == setTrainSystem {
+                                Spacer()
+                                
+                                Text("Select a train line color corresponding to the flashing line:")
+                                    .bold()
+                                
+                                switch city {
+                                case "cta":
+                                    Picker("Select a train line color", selection: $color) {
+                                        Text("pink").tag("pink")
+                                        Text("red").tag("red")
+                                        Text("orange").tag("orange")
+                                        Text("south green").tag("green1")
+                                        Text("west green").tag("green2")
+                                        Text("blue").tag("blue")
+                                        Text("brown/purple").tag("brown")
+                                    }
+                                        .pickerStyle(MenuPickerStyle())
+                                default:
+                                    Picker("Select a train line color", selection: $color) { }
+                                }
+                                
+                                Button("Set Argon to be the \(color) line")  {
+                                    SetColor()
+                                }
+                                    .padding()
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10.0)
+                                            .stroke(.blue)
+                                    )
+                            }
+                        }
                     }
                 }
 
@@ -125,6 +129,7 @@ struct ContentView: View {
         } else {
             print("Sending wifi \(wifiSSID)")
             btManager.sendData(data: "wifi:\(wifiSSID),\(wifiPass)")
+            wifiDone = true
             return nil
         }
     }
