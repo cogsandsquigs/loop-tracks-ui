@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var wifiSSID = ""
-    @State private var wifiPass = ""
+    @State private var wifiSSID = "WCL"
+    @State private var wifiPass = "atmega328"
     @State private var wifiAlert = false
     @State private var wifiError = ""
     @State private var wifiDone = false
