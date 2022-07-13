@@ -9,35 +9,40 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var colorSelection = "brown"
-    @State private var btManager: BluetoothManager
-    
-    init() {
-        btManager = BluetoothManager()
-        btManager.start()
-    }
+    @StateObject private var btManager: BluetoothManager = BluetoothManager()
     
     var body: some View {
-        VStack {
-            Text("Select a train line color corresponding to the flashing Argon:")
+        NavigationView {
+            VStack {
+                Text("Select a train line color corresponding to the flashing Argon:")
                 .bold()
-            Picker("Select a train line color", selection: $colorSelection) {
-                Text("pink").tag("pink")
-                Text("red").tag("red")
-                Text("orange").tag("orange")
-                Text("green").tag("green")
-                Text("blue").tag("blue")
-                Text("purple").tag("purple")
-                Text("brown").tag("brown")
-            }
+                
+                Picker("Select a train line color", selection: $colorSelection) {
+                    Text("pink").tag("pink")
+                    Text("red").tag("red")
+                    Text("orange").tag("orange")
+                    Text("green").tag("green")
+                    Text("blue").tag("blue")
+                    Text("purple").tag("purple")
+                    Text("brown").tag("brown")
+                }
                 .pickerStyle(MenuPickerStyle())
-            Button(action:SetArgonColor) {
-                Text("Set Argon to be the " + colorSelection + " line")
-            }
+                
+                Button(action:SetArgonColor) {
+                    Text("Set Argon to be the " + colorSelection + " line")
+                }
                 .padding()
                 .overlay(
                     RoundedRectangle(cornerRadius: 10.0)
                         .stroke(.gray)
                 )
+            }
+            .navigationTitle(
+                btManager.mainPeripheral != nil
+                    ? "Connected to \(btManager.mainPeripheral.name ?? "Unknown device")"
+                    : "Not Connected"
+            )
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
     
