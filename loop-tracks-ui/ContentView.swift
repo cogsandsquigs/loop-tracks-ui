@@ -74,38 +74,36 @@ struct ContentView: View {
                             )
                         
                         
-                        Group {
-                            if city != "" && city == setTrainSystem {
-                                Spacer()
-                                
-                                Text("Select a train line color corresponding to the flashing line:")
-                                    .bold()
-                                
-                                switch city {
-                                case "cta":
-                                    Picker("Select a train line color", selection: $color) {
-                                        Text("pink").tag("pink")
-                                        Text("red").tag("red")
-                                        Text("orange").tag("orange")
-                                        Text("south green").tag("green1")
-                                        Text("west green").tag("green2")
-                                        Text("blue").tag("blue")
-                                        Text("brown/purple").tag("brown")
-                                    }
-                                        .pickerStyle(MenuPickerStyle())
-                                default:
-                                    Picker("Select a train line color", selection: $color) { }
+                        if city != "" && city == setTrainSystem {
+                            Spacer()
+                            
+                            Text("Select a train line color corresponding to the flashing line:")
+                                .bold()
+                            
+                            switch city {
+                            case "cta":
+                                Picker("Select a train line color", selection: $color) {
+                                    Text("pink").tag("pink")
+                                    Text("red").tag("red")
+                                    Text("orange").tag("orange")
+                                    Text("south green").tag("green1")
+                                    Text("west green").tag("green2")
+                                    Text("blue").tag("blue")
+                                    Text("brown/purple").tag("brown")
                                 }
-                                
-                                Button("Set Argon to be the \(color) line")  {
-                                    SetColor()
-                                }
-                                    .padding()
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10.0)
-                                            .stroke(.blue)
-                                    )
+                                    .pickerStyle(MenuPickerStyle())
+                            default:
+                                Picker("Select a train line color", selection: $color) { }
                             }
+                            
+                            Button("Set Argon to be the \(color) line")  {
+                                SetColor()
+                            }
+                                .padding()
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10.0)
+                                        .stroke(.blue)
+                                )
                         }
                     }
                 }
