@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var colorSelection = "pink";
+    @State private var colorSelection = "brown"
+    @State private var btManager: BluetoothManager
+    
+    init() {
+        btManager = BluetoothManager()
+        btManager.start()
+    }
     
     var body: some View {
         VStack {
@@ -35,11 +41,12 @@ struct ContentView: View {
         }
     }
     
-    
     func SetArgonColor() {
         print(colorSelection)
     }
 }
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

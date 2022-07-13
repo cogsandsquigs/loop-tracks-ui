@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8420A696287F09A4008D26DE /* Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8420A695287F09A4008D26DE /* Bluetooth.swift */; };
 		84E7EB2B287C826F0058998E /* loop_tracks_uiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E7EB2A287C826F0058998E /* loop_tracks_uiApp.swift */; };
 		84E7EB2D287C826F0058998E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E7EB2C287C826F0058998E /* ContentView.swift */; };
 		84E7EB2F287C82700058998E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84E7EB2E287C82700058998E /* Assets.xcassets */; };
@@ -14,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8420A695287F09A4008D26DE /* Bluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bluetooth.swift; sourceTree = "<group>"; };
 		84E7EB28287C826E0058998E /* loop-tracks-ui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "loop-tracks-ui.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E7EB2A287C826F0058998E /* loop_tracks_uiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loop_tracks_uiApp.swift; sourceTree = "<group>"; };
 		84E7EB2C287C826F0058998E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 			children = (
 				84E7EB2A287C826F0058998E /* loop_tracks_uiApp.swift */,
 				84E7EB2C287C826F0058998E /* ContentView.swift */,
+				8420A695287F09A4008D26DE /* Bluetooth.swift */,
 				84E7EB2E287C82700058998E /* Assets.xcassets */,
 				84E7EB30287C82700058998E /* Preview Content */,
 			);
@@ -142,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84E7EB2D287C826F0058998E /* ContentView.swift in Sources */,
+				8420A696287F09A4008D26DE /* Bluetooth.swift in Sources */,
 				84E7EB2B287C826F0058998E /* loop_tracks_uiApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,6 +204,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -255,6 +260,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -273,13 +279,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"loop-tracks-ui/Preview Content\"";
+				DEVELOPMENT_TEAM = CTAHUW353A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow this app to use bluetooth?";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Allow this app to connect to bluetooth-enabled devices?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -301,13 +311,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"loop-tracks-ui/Preview Content\"";
+				DEVELOPMENT_TEAM = CTAHUW353A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow this app to use bluetooth?";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Allow this app to connect to bluetooth-enabled devices?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
