@@ -53,10 +53,10 @@ struct ContentView: View {
                         }
                 }
                 
-                Spacer()
-                
                 Group {
                     if wifiDone {
+                        Spacer()
+
                         Text("Select a train system:")
                             .bold()
                         
