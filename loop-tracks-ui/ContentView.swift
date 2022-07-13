@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
 struct ContentView: View {
     @State private var wifiSSID = "WCL"
     @State private var wifiPass = "atmega328"
@@ -28,10 +34,14 @@ struct ContentView: View {
                     Text("Set wifi SSID and password:")
                         .bold()
                     
-                    TextField("Set wifi SSID", text: $wifiSSID)
+                    TextField("Set wifi SSID", text: $wifiSSID) {
+                        UIApplication.shared.endEditing()
+                    }
                         .padding()
                     
-                    SecureField("Set wifi Password", text: $wifiPass)
+                    SecureField("Set wifi Password", text: $wifiPass) {
+                        UIApplication.shared.endEditing()
+                    }
                         .padding()
                     
                     Button("Set the wifi to be \(wifiSSID)") {
