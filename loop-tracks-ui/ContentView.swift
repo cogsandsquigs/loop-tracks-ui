@@ -36,9 +36,12 @@ struct ContentView: View {
                         }
                     }
                     
+                    Spacer()
+                    
                     Button("Reset config", role: .destructive) {
                         resetConfirmation = true
                     }
+                    .padding()
                     .confirmationDialog("Are you sure you want to reset?", isPresented: $resetConfirmation) {
                         Button("Yes", role: .destructive) {
                             Reset()
@@ -47,8 +50,6 @@ struct ContentView: View {
                 } else {
                     ScanningView(done: $scanningDone, isScanning: $btManager.scanning)
                 }
-
-                Spacer()
             }
                 .navigationTitle(
                     btManager.mainPeripheral != nil
@@ -206,6 +207,24 @@ struct TrainSystemView: View {
 struct ColorView: View {
     @State private var setColor: (String) -> Error?
     @State private var color: String = "red"
+    
+    @State private var ctaEntries = [
+        "pink": "Pink",
+        "red": "Red",
+        "orange": "Orange",
+        "green1": "South Green",
+        "green2": "West Green",
+        "blue": "Blue",
+        "brown": "Brown/Purple",
+    ]
+    @State private var mbtaEntries = [
+        "red": "Red",
+        "orange": "Orange",
+        "green1": "Green Main",
+        "green2": "Green E",
+        "blue": "Blue",
+    ]
+    
     @Binding var trainSystem: String
     
     init(trainSystem: Binding<String>, setColorFunction: @escaping (String) -> Error?) {
@@ -220,28 +239,25 @@ struct ColorView: View {
         switch trainSystem {
         case "cta":
             Picker("Select a train line color", selection: $color) {
-                Text("pink").tag("pink")
-                Text("red").tag("red")
-                Text("orange").tag("orange")
-                Text("south green").tag("green1")
-                Text("west green").tag("green2")
-                Text("blue").tag("blue")
-                Text("brown/purple").tag("brown")
+                ForEach(ctaEntries.sorted(by: >), id: \.key) { (tag, name) in
+                    Text(name).tag(tag)
+                }
             }
                 .pickerStyle(MenuPickerStyle())
         case "mbta":
-            Picker("Selecte a train line color", selection: $color) {
-                Text("red").tag("red")
-                Text("orange").tag("orange")
-                Text("blue").tag("blue")
-                Text("Green Main").tag("green1")
-                Text("Green E").tag("green2")
+            Picker("Select a train line color", selection: $color) {
+                ForEach(mbtaEntries.sorted(by: >), id: \.key) { (tag, name) in
+                    Text(name).tag(tag)
+                }
             }
+                .pickerStyle(MenuPickerStyle())
         default:
             Picker("Select a train line color", selection: $color) { }
         }
         
-        Button("Set Argon to be the \(color) line")  {
+        Button("Set the train line color")  {
+            ctaEntries.removeValue(forKey: color)
+            mbtaEntries.removeValue(forKey: color)
             setColor(color)
         }
             .padding()
@@ -249,6 +265,24 @@ struct ColorView: View {
                 RoundedRectangle(cornerRadius: 10.0)
                     .stroke(.blue)
             )
+            .onAppear {
+                ctaEntries = [
+                    "pink": "Pink",
+                    "red": "Red",
+                    "orange": "Orange",
+                    "green1": "South Green",
+                    "green2": "West Green",
+                    "blue": "Blue",
+                    "brown": "Brown/Purple",
+                ]
+                mbtaEntries = [
+                    "red": "Red",
+                    "orange": "Orange",
+                    "green1": "Green Main",
+                    "green2": "Green E",
+                    "blue": "Blue",
+                ]
+            }
     }
 }
 
