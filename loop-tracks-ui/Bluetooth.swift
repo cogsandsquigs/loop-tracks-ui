@@ -216,9 +216,9 @@ final class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelega
 }
 
 struct CBUUIDs {
-    static let kBLEService_UUID = "123A"
-    static let kBLE_Characteristic_uuid_Tx = "123B"
-    static let kBLE_Characteristic_uuid_Rx = "123C"
+    static let kBLEService_UUID = "a73ba101-8192-4a51-b42d-ae9cd14b14a5" // custom service id so we can ID loop-track devices
+    static let kBLE_Characteristic_uuid_Tx = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"
+    static let kBLE_Characteristic_uuid_Rx = "6e400003-b5a3-f393-e0a9-e50e24dcca9e"
 
     static let BLEService_UUID = CBUUID(string: kBLEService_UUID)
     static let BLE_Characteristic_uuid_Tx = CBUUID(
