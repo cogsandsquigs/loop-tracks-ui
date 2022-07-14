@@ -1,8 +1,8 @@
 //
 //  TrainSystemView.swift
-//  loop-tracks-ui
+//  LoopTracksUI
 //
-//  Created by admin on 7/14/22.
+//  Created by Ian Pratt on 7/14/22.
 //
 
 import SwiftUI

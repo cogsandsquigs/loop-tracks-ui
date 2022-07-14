@@ -1,6 +1,6 @@
 //
 //  Bluetooth.swift
-//  loop-tracks-ui
+//  LoopTracksUI
 //
 //  Created by Ian Pratt on 7/13/22.
 //

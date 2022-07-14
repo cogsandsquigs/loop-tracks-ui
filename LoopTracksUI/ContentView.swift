@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  loop-tracks-ui
+//  LoopTracksUI
 //
 //  Created by Ian Pratt on 7/11/22.
 //
