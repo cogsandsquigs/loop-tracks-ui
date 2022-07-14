@@ -8,29 +8,33 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var scanningDone = false
     @State private var wifiDone = false
     @State private var trainSystemDone = false
     @State private var trainSystem = "cta"
 
-    @StateObject private var btManager: BluetoothManager = BluetoothManager()
+    @ObservedObject private var btManager: BluetoothManager = BluetoothManager()
     
     var body: some View {
         NavigationView {
             VStack {
                 Spacer()
-
-                WifiView(done: $wifiDone, setWifiFunction: SetWifi)
-                
-                if wifiDone {
-                    Spacer()
+                if scanningDone {
+                    WifiView(done: $wifiDone, setWifiFunction: SetWifi)
                     
-                    TrainSystemView(done: $trainSystemDone, trainSystem: $trainSystem, setTrainSystemFunction: SetTrainSystem)
-
-                    if trainSystemDone {
+                    if wifiDone {
                         Spacer()
                         
-                        ColorView(trainSystem: $trainSystem, setColorFunction: SetColor)
+                        TrainSystemView(done: $trainSystemDone, trainSystem: $trainSystem, setTrainSystemFunction: SetTrainSystem)
+
+                        if trainSystemDone {
+                            Spacer()
+                            
+                            ColorView(trainSystem: $trainSystem, setColorFunction: SetColor)
+                        }
                     }
+                } else {
+                    ScanningView(done: $scanningDone, isScanning: $btManager.scanning)
                 }
 
                 Spacer()
@@ -41,6 +45,9 @@ struct ContentView: View {
                         : "Not Connected"
                 )
                 .navigationBarTitleDisplayMode(.inline)
+                .onChange(of: btManager.scanning) { isScanning in
+                    scanningDone = false
+                }
         }
     }
     
@@ -67,6 +74,20 @@ struct ContentView: View {
         print("Sending color \(color)")
         btManager.sendData(data: "color:\(color)")
         return nil
+    }
+}
+
+struct ScanningView: View {
+    @Binding var done: Bool
+    @Binding var isScanning: Bool
+    
+    var body: some View {
+        Text("Scanning...")
+            .padding()
+            .onChange(of: isScanning) {isScanning in
+                print("scanning: \(isScanning)")
+                done = !isScanning
+            }
     }
 }
 

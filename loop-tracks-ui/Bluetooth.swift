@@ -15,11 +15,11 @@ final class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelega
     
     private var centralManager: CBCentralManager!
     
-    var mainPeripheral: CBPeripheral!
-    private var txCharacteristic: CBCharacteristic!
-    private var rxCharacteristic: CBCharacteristic!
+    @Published var mainPeripheral: CBPeripheral!
+    @Published private var txCharacteristic: CBCharacteristic!
+    @Published private var rxCharacteristic: CBCharacteristic!
 
-    var btOn = false
+    @Published var scanning = false
     var peripherals: [CBPeripheral]?
     var stateSubject: PassthroughSubject<CBManagerState, Never> = .init()
     var peripheralSubject: PassthroughSubject<CBPeripheral, Never> = .init()
@@ -37,10 +37,8 @@ final class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelega
       
        switch central.state {
             case .poweredOff:
-                btOn = false
                 print("Bluetooth is off")
             case .poweredOn:
-                btOn = true
                 print("Bluetooth is on")
                 startScanning()
             case .unsupported:
@@ -79,20 +77,7 @@ final class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelega
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         print("Disconnected from peripheral \(peripheral.name ?? "Unknown Device")")
         startScanning()
-    }
-    
-    func centralManager(_ central: CBCentralManager, connectionEventDidOccur event: CBConnectionEvent, for peripheral: CBPeripheral) {
-        
-        switch event {
-        case .peerConnected:
-            print("\(peripheral.name ?? "Unknown Device") connected")
-            stopScanning()
-        case .peerDisconnected:
-            print("\(peripheral.name ?? "Unknown Device") disconnected")
-            startScanning()
-        default:
-            print("Unknown connection event")
-        }
+        delMainPeripheral()
     }
     
     // These are the functions for the peripheral we discovered
@@ -137,9 +122,7 @@ final class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelega
     
     // Is called on discovering characteristics
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-            guard let characteristics = service.characteristics else {
-                return
-            }
+            guard let characteristics = service.characteristics else { return }
 
             print("Found \(characteristics.count) characteristics.")
 
@@ -184,17 +167,18 @@ final class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelega
     func setMainPeripheral(peripheral: CBPeripheral) {
         mainPeripheral = peripheral
         mainPeripheral.delegate = self
-        objectWillChange.send()
+    }
+    
+    func delMainPeripheral() {
+        mainPeripheral = nil
     }
     
     func setRxCharacteristic(characteristic: CBCharacteristic) {
         rxCharacteristic = characteristic
-        objectWillChange.send()
     }
     
     func setTxCharacteristic(characteristic: CBCharacteristic) {
         txCharacteristic = characteristic
-        objectWillChange.send()
     }
     
     func sendData(data: String) {
@@ -210,10 +194,13 @@ final class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelega
     func startScanning() {
         // scans for peripherals to connect to
         centralManager?.scanForPeripherals(withServices: [CBUUIDs.BLEService_UUID])
+        scanning = true
+        print("started scanning")
     }
     
     func stopScanning() {
         centralManager?.stopScan()
+        scanning = false
     }
     
     private func connectToMainPeripheral() {
