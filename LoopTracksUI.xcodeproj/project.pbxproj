@@ -8,18 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		8420A696287F09A4008D26DE /* Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8420A695287F09A4008D26DE /* Bluetooth.swift */; };
+		8458E4FB28809BC30083AEDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8458E4FA28809BC30083AEDA /* Assets.xcassets */; };
 		8484609F288091A90031D498 /* ScanningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8484609E288091A90031D498 /* ScanningView.swift */; };
 		848460A1288091DD0031D498 /* WifiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848460A0288091DD0031D498 /* WifiView.swift */; };
 		848460A3288092120031D498 /* TrainSystemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848460A2288092120031D498 /* TrainSystemView.swift */; };
 		848460A5288092430031D498 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848460A4288092430031D498 /* ColorView.swift */; };
 		84E7EB2B287C826F0058998E /* LoopTracksUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E7EB2A287C826F0058998E /* LoopTracksUIApp.swift */; };
 		84E7EB2D287C826F0058998E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E7EB2C287C826F0058998E /* ContentView.swift */; };
-		84E7EB2F287C82700058998E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84E7EB2E287C82700058998E /* Assets.xcassets */; };
 		84E7EB32287C82700058998E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84E7EB31287C82700058998E /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		8420A695287F09A4008D26DE /* Bluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bluetooth.swift; sourceTree = "<group>"; };
+		8458E4FA28809BC30083AEDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8484609E288091A90031D498 /* ScanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningView.swift; sourceTree = "<group>"; };
 		848460A0288091DD0031D498 /* WifiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiView.swift; sourceTree = "<group>"; };
 		848460A2288092120031D498 /* TrainSystemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainSystemView.swift; sourceTree = "<group>"; };
@@ -27,7 +28,6 @@
 		84E7EB28287C826E0058998E /* LoopTracksUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoopTracksUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E7EB2A287C826F0058998E /* LoopTracksUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopTracksUIApp.swift; sourceTree = "<group>"; };
 		84E7EB2C287C826F0058998E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		84E7EB2E287C82700058998E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84E7EB31287C82700058998E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,7 +68,7 @@
 				848460A2288092120031D498 /* TrainSystemView.swift */,
 				848460A4288092430031D498 /* ColorView.swift */,
 				8420A695287F09A4008D26DE /* Bluetooth.swift */,
-				84E7EB2E287C82700058998E /* Assets.xcassets */,
+				8458E4FA28809BC30083AEDA /* Assets.xcassets */,
 				84E7EB30287C82700058998E /* Preview Content */,
 			);
 			path = LoopTracksUI;
@@ -144,8 +144,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8458E4FB28809BC30083AEDA /* Assets.xcassets in Resources */,
 				84E7EB32287C82700058998E /* Preview Assets.xcassets in Resources */,
-				84E7EB2F287C82700058998E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
