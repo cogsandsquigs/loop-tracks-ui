@@ -24,8 +24,8 @@ struct TrainSystemView: View {
             .bold()
         
         Picker("Select a train system", selection: $trainSystem.onChange(onPickerChange)) {
-            Text("cta").tag("cta")
-            Text("mbta").tag("mbta")
+            Text("CTA").tag("cta")
+            Text("MBTA").tag("mbta")
         }
             
         
