@@ -7,21 +7,10 @@
 
 import SwiftUI
 
-extension UIApplication {
-    func endEditing() {
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-}
-
 struct ContentView: View {
-    @State private var wifiSSID = "WCL"
-    @State private var wifiPass = "atmega328"
-    @State private var wifiAlert = false
-    @State private var wifiError = ""
     @State private var wifiDone = false
-    @State private var city = "cta"
-    @State private var setTrainSystem = "" // is used so we can detect if the user set a new city without sending it, so we don't show the color options
-    @State private var color = "red"
+    @State private var trainSystemDone = false
+    @State private var trainSystem = "cta"
 
     @StateObject private var btManager: BluetoothManager = BluetoothManager()
     
@@ -30,100 +19,17 @@ struct ContentView: View {
             VStack {
                 Spacer()
 
-                Group {
-                    Text("Set wifi SSID and password:")
-                        .bold()
-                    
-                    TextField("Set wifi SSID", text: $wifiSSID) {
-                        UIApplication.shared.endEditing()
-                    }
-                        .padding()
-                    
-                    SecureField("Set wifi Password", text: $wifiPass) {
-                        UIApplication.shared.endEditing()
-                    }
-                        .padding()
-                    
-                    Button("Set the wifi to be \(wifiSSID)") {
-                        let err = SetWifi()
-                        if let err = err {
-                            wifiAlert = true
-                            wifiError = err
-                        } else {
-                            wifiAlert = false
-                        }
-                    }
-                        .padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10.0)
-                                .stroke(.blue)
-                        )
-                        .alert(wifiError, isPresented: $wifiAlert) {
-                            Button("Ok", role: .cancel) {}
-                        }
-                }
+                WifiView(done: $wifiDone, setWifiFunction: SetWifi)
                 
-                Group {
-                    if wifiDone {
-                        Spacer()
+                if wifiDone {
+                    Spacer()
+                    
+                    TrainSystemView(done: $trainSystemDone, trainSystem: $trainSystem, setTrainSystemFunction: SetTrainSystem)
 
-                        Text("Select a train system:")
-                            .bold()
+                    if trainSystemDone {
+                        Spacer()
                         
-                        Picker("Select a train system", selection: $city) {
-                            Text("cta").tag("cta")
-                            Text("mbta").tag("mbta")
-                        }
-                        
-                        Button("Set the train system to the \(city)")  {
-                            SetCity()
-                        }
-                            .padding()
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10.0)
-                                    .stroke(.blue)
-                            )
-                        
-                        
-                        if city != "" && city == setTrainSystem {
-                            Spacer()
-                            
-                            Text("Select a train line color corresponding to the flashing line:")
-                                .bold()
-                            
-                            switch city {
-                            case "cta":
-                                Picker("Select a train line color", selection: $color) {
-                                    Text("pink").tag("pink")
-                                    Text("red").tag("red")
-                                    Text("orange").tag("orange")
-                                    Text("south green").tag("green1")
-                                    Text("west green").tag("green2")
-                                    Text("blue").tag("blue")
-                                    Text("brown/purple").tag("brown")
-                                }
-                                    .pickerStyle(MenuPickerStyle())
-                            case "mbta":
-                                Picker("Selecte a train line color", selection: $color) {
-                                    Text("red").tag("red")
-                                    Text("orange").tag("orange")
-                                    Text("blue").tag("blue")
-                                    Text("Green Main").tag("green1")
-                                    Text("Green E").tag("green2")
-                                }
-                            default:
-                                Picker("Select a train line color", selection: $color) { }
-                            }
-                            
-                            Button("Set Argon to be the \(color) line")  {
-                                SetColor()
-                            }
-                                .padding()
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10.0)
-                                        .stroke(.blue)
-                                )
-                        }
+                        ColorView(trainSystem: $trainSystem, setColorFunction: SetColor)
                     }
                 }
 
@@ -138,11 +44,11 @@ struct ContentView: View {
         }
     }
     
-    func SetWifi() -> String? {
+    func SetWifi(wifiSSID: String, wifiPass: String) -> Error? {
         if wifiSSID == "" {
-            return "Please set the wifi SSID"
+            return Errors.WifiError("Please set the wifi SSID")
         } else if wifiPass == "" {
-            return "Please set the wifi password"
+            return Errors.WifiError("Please set the wifi password")
         } else {
             print("Sending wifi \(wifiSSID)")
             btManager.sendData(data: "wifi:\(wifiSSID),\(wifiPass)")
@@ -151,18 +57,176 @@ struct ContentView: View {
         }
     }
     
-    func SetCity() {
-        setTrainSystem = city
-        print("Sending city \(city)")
-        btManager.sendData(data: "city:\(city)")
+    func SetTrainSystem(trainSystem: String) -> Error? {
+        print("Sending train system \(trainSystem)")
+        btManager.sendData(data: "city:\(trainSystem)")
+        return nil
     }
     
-    func SetColor() {
+    func SetColor(color: String) -> Error? {
         print("Sending color \(color)")
         btManager.sendData(data: "color:\(color)")
+        return nil
     }
 }
 
+// Holds the view for the wifi configuration page
+struct WifiView: View {
+    @State private var setWifi: (String, String) -> Error?
+    @State private var wifiSSID = "WCL"
+    @State private var wifiPass = "atmega328"
+    @State private var wifiAlert = false
+    @State private var wifiError: Error? = nil
+    @Binding var done: Bool
+    
+    init(done: Binding<Bool>, setWifiFunction: @escaping (String, String) -> Error?) {
+        self._done = done
+        self.setWifi = setWifiFunction
+    }
+    
+    var body: some View {
+        Text("Set wifi SSID and password:")
+            .bold()
+        
+        TextField("Set wifi SSID", text: $wifiSSID) {
+            UIApplication.shared.endEditing()
+        }
+            .padding()
+        
+        SecureField("Set wifi Password", text: $wifiPass) {
+            UIApplication.shared.endEditing()
+        }
+            .padding()
+        
+        Button("Send the wifi configuration.") {
+            let err = setWifi(wifiSSID, wifiPass)
+            if let err = err {
+                wifiAlert = true
+                wifiError = err
+            } else {
+                wifiAlert = false
+                done = true
+            }
+        }
+            .padding()
+            .overlay(
+                RoundedRectangle(cornerRadius: 10.0)
+                    .stroke(.blue)
+            )
+            .alert(wifiError?.localizedDescription ?? "No Error", isPresented: $wifiAlert) {
+                Button("Ok", role: .cancel) {}
+            }
+    }
+}
+
+struct TrainSystemView: View {
+    @State private var setTrainSystem: (String) -> Error?
+    @State private var lastUpdatedTrainSystem = ""
+    @Binding var trainSystem: String
+    @Binding var done: Bool
+    
+    init(done: Binding<Bool>, trainSystem: Binding<String>, setTrainSystemFunction: @escaping (String) -> Error?) {
+        self.setTrainSystem = setTrainSystemFunction
+        self._done = done
+        self._trainSystem = trainSystem
+    }
+    
+    var body: some View {
+        Text("Select a train system:")
+            .bold()
+        
+        Picker("Select a train system", selection: $trainSystem.onChange(onPickerChange)) {
+            Text("cta").tag("cta")
+            Text("mbta").tag("mbta")
+        }
+            
+        
+        Button("Set the train system to the \(trainSystem)")  {
+            lastUpdatedTrainSystem = trainSystem
+            let err = setTrainSystem(trainSystem)
+            done = err == nil
+        }
+            .padding()
+            .overlay(
+                RoundedRectangle(cornerRadius: 10.0)
+                    .stroke(.blue)
+            )
+    }
+    
+    func onPickerChange(_ tag: String) {
+        done = false
+    }
+}
+
+struct ColorView: View {
+    @State private var setColor: (String) -> Error?
+    @State private var color: String = "red"
+    @Binding var trainSystem: String
+    
+    init(trainSystem: Binding<String>, setColorFunction: @escaping (String) -> Error?) {
+        self.setColor = setColorFunction
+        self._trainSystem = trainSystem
+    }
+    
+    var body: some View {
+        Text("Select a train line color corresponding to the flashing line:")
+            .bold()
+        
+        switch trainSystem {
+        case "cta":
+            Picker("Select a train line color", selection: $color) {
+                Text("pink").tag("pink")
+                Text("red").tag("red")
+                Text("orange").tag("orange")
+                Text("south green").tag("green1")
+                Text("west green").tag("green2")
+                Text("blue").tag("blue")
+                Text("brown/purple").tag("brown")
+            }
+                .pickerStyle(MenuPickerStyle())
+        case "mbta":
+            Picker("Selecte a train line color", selection: $color) {
+                Text("red").tag("red")
+                Text("orange").tag("orange")
+                Text("blue").tag("blue")
+                Text("Green Main").tag("green1")
+                Text("Green E").tag("green2")
+            }
+        default:
+            Picker("Select a train line color", selection: $color) { }
+        }
+        
+        Button("Set Argon to be the \(color) line")  {
+            setColor(color)
+        }
+            .padding()
+            .overlay(
+                RoundedRectangle(cornerRadius: 10.0)
+                    .stroke(.blue)
+            )
+    }
+}
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
+extension Binding {
+    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
+        return Binding(
+            get: { self.wrappedValue },
+            set: { selection in
+                self.wrappedValue = selection
+                handler(selection)
+        })
+    }
+}
+
+enum Errors: Error {
+    case WifiError(String)
+}
 
 
 struct ContentView_Previews: PreviewProvider {
