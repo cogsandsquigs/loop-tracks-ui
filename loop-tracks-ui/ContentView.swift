@@ -90,7 +90,7 @@ struct ContentView: View {
     
     func Reset() {
         scanningDone = !btManager.scanning
-        wifiDone = false
+        // we skip past the wifiDone b/c argon remembers wifi
         trainSystemDone = false
         print("Sending reset")
         btManager.sendData(data: "reset")
