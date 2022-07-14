@@ -211,7 +211,6 @@ final class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelega
         if mainPeripheral != nil {
             centralManager?.cancelPeripheralConnection(mainPeripheral!)
             mainPeripheral = nil
-            objectWillChange.send()
         }
     }
 }
