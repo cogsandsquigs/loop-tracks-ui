@@ -258,7 +258,7 @@ struct ColorView: View {
         Button("Set the train line color")  {
             ctaEntries.removeValue(forKey: color)
             mbtaEntries.removeValue(forKey: color)
-            setColor(color)
+            let _ = setColor(color)
         }
             .padding()
             .overlay(
