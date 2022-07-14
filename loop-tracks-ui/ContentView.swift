@@ -108,10 +108,11 @@ struct ScanningView: View {
     var body: some View {
         Text("Scanning...")
             .padding()
-            .onChange(of: isScanning) {isScanning in
+            .onChange(of: isScanning) { isScanning in
                 print("scanning: \(isScanning)")
                 done = !isScanning
             }
+        ProgressView().progressViewStyle(CircularProgressViewStyle(tint: .blue))
     }
 }
 
