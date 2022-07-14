@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>LoopTracksUI.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
 		<key>Rx (Playground) 1.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -25,20 +30,15 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
-		<key>loop-tracks-ui 1.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
-		</dict>
-		<key>loop-tracks-ui.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>0</integer>
-		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>84E7EB00287C809D0058998E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>84E7EB27287C826E0058998E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
