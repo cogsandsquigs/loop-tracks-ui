@@ -12,7 +12,9 @@ struct ContentView: View {
     @State private var wifiDone = false
     @State private var trainSystemDone = false
     @State private var trainSystem = "cta"
-
+    @State private var resetConfirmation = false
+    
+    
     @ObservedObject private var btManager: BluetoothManager = BluetoothManager()
     
     var body: some View {
@@ -21,7 +23,7 @@ struct ContentView: View {
                 Spacer()
                 if scanningDone {
                     WifiView(done: $wifiDone, setWifiFunction: SetWifi)
-                    
+                
                     if wifiDone {
                         Spacer()
                         
@@ -38,7 +40,16 @@ struct ContentView: View {
                 }
 
                 Spacer()
-            }
+                
+                Button("Reset config", role: .destructive) {
+                    resetConfirmation = true
+                }
+                .confirmationDialog("Are you sure you want to reset?", isPresented: $resetConfirmation) {
+                        Button("Yes") {
+                            Reset()
+                        }
+                    }
+                }
                 .navigationTitle(
                     btManager.mainPeripheral != nil
                         ? "Connected to \(btManager.mainPeripheral.name ?? "Unknown device")"
@@ -75,11 +86,24 @@ struct ContentView: View {
         btManager.sendData(data: "color:\(color)")
         return nil
     }
+    
+    func Reset() {
+        scanningDone = !btManager.scanning
+        wifiDone = false
+        trainSystemDone = false
+        print("Sending reset")
+        btManager.sendData(data: "reset")
+    }
 }
 
 struct ScanningView: View {
     @Binding var done: Bool
     @Binding var isScanning: Bool
+    
+    init(done: Binding<Bool>, isScanning: Binding<Bool>) {
+        self._done = done
+        self._isScanning = isScanning
+    }
     
     var body: some View {
         Text("Scanning...")
