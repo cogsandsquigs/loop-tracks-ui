@@ -49,6 +49,7 @@ struct ContentView: View {
                     }
                 } else {
                     ScanningView(done: $scanningDone, isScanning: $btManager.scanning)
+                    Spacer()
                 }
             }
                 .navigationTitle(
