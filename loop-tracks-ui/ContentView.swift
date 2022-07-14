@@ -35,21 +35,21 @@ struct ContentView: View {
                             ColorView(trainSystem: $trainSystem, setColorFunction: SetColor)
                         }
                     }
+                    
+                    Button("Reset config", role: .destructive) {
+                        resetConfirmation = true
+                    }
+                    .confirmationDialog("Are you sure you want to reset?", isPresented: $resetConfirmation) {
+                        Button("Yes", role: .destructive) {
+                            Reset()
+                        }
+                    }
                 } else {
                     ScanningView(done: $scanningDone, isScanning: $btManager.scanning)
                 }
 
                 Spacer()
-                
-                Button("Reset config", role: .destructive) {
-                    resetConfirmation = true
-                }
-                .confirmationDialog("Are you sure you want to reset?", isPresented: $resetConfirmation) {
-                        Button("Yes") {
-                            Reset()
-                        }
-                    }
-                }
+            }
                 .navigationTitle(
                     btManager.mainPeripheral != nil
                         ? "Connected to \(btManager.mainPeripheral.name ?? "Unknown device")"
